@@ -12,8 +12,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+@Order(2)
 @Aspect
 @Component
 public class GreetingAspect {
@@ -22,7 +24,7 @@ public class GreetingAspect {
 
     // JoinPoint se inyecta por parametro
 
-    @Before("execution(* com.jonathan.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @Before("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerBefore(JoinPoint joinPoint) {
 
         String method = joinPoint.getSignature().getName();
@@ -30,7 +32,7 @@ public class GreetingAspect {
         logger.info("Antes: " + method + " con los argumentos: " + args);
     }
 
-    @After("execution(* com.jonathan.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @After("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfter(JoinPoint joinPoint) {
 
         String method = joinPoint.getSignature().getName();
@@ -38,7 +40,7 @@ public class GreetingAspect {
         logger.info("Despues: " + method + " con los argumentos: " + args);
     }
 
-    @AfterReturning("execution(* com.jonathan.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @AfterReturning("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfterReturning(JoinPoint joinPoint) {
 
         String method = joinPoint.getSignature().getName();
@@ -46,7 +48,7 @@ public class GreetingAspect {
         logger.info("Despues de retornar: " + method + " con los argumentos: " + args);
     }
 
-    @AfterThrowing("execution(* com.jonathan.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @AfterThrowing("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfterThrowing(JoinPoint joinPoint) {
 
         String method = joinPoint.getSignature().getName();
@@ -54,7 +56,7 @@ public class GreetingAspect {
         logger.info("Despues lanzar excepcion: : " + method + " con los argumentos: " + args);
     }
 
-    @Around("execution(* com.jonathan.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @Around("GreetingServicePointcuts.greetingLoggerPointCut()")
     public Object loggerAround(ProceedingJoinPoint joinPoint) throws Throwable {
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
